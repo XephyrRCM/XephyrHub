@@ -9,26 +9,7 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 
 ----Functions---
 
-local function autoTag()
-    -- Get the players in range
-    local players = {}
-    for _, player in pairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer then
-            local character = player.Character
-            if character and character:FindFirstChild("HumanoidRootPart") then
-                local distance = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - character.HumanoidRootPart.Position).magnitude
-                if distance <= 10 then -- Adjust the range as needed
-                    table.insert(players, player)
-                end
-            end
-        end
-    end
-    
-    -- Tag the players in range
-    for _, player in pairs(players) do
-        game.ReplicatedStorage.Tag:FireServer(player)
-    end
-end
+
 ---------------------------------------------------------------------------------------
 
 
@@ -53,12 +34,12 @@ local Tabs = {
 
 -- Toggles ==
 
--- AutoFarm
+-- AutoFarm Toggle
 Tabs.AutoFarm:AddToggle("Toggle AutoFarm", {
 Title = "Toggle AutoFarm", 
 Default = false, 
-Callback = function(autoTag)
-    getgenv().autofarm = autoTag
+Callback = function(Value)
+    getgenv().autofarm = Value
 end
 })
 -- Local Player --
