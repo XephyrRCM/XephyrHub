@@ -10,7 +10,7 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 -------Keysys UI-----------
 
 -- Create a new Fluent window
-local window = Fluent.Window:new({
+local window = Fluent.Window:Create({
     Title = "Key Verification",
     Size = UDim2.new(0, 400, 0, 200)
     })
@@ -49,8 +49,6 @@ local window = Fluent.Window:new({
     
     -- Show the window
     window:Show()
-
-
 
 
 -- Plato callbacks
