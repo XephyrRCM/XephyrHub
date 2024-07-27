@@ -10,45 +10,23 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 -------Keysys UI-----------
 
 -- Create a new Fluent window
-local window = Fluent.Window:Create({
+
+
+local Window = Fluent:CreateWindow({
     Title = "Key Verification",
-    Size = UDim2.new(0, 400, 0, 200)
-    })
-    
-    -- Create a text box
-    local textBox = Fluent.TextBox:new({
-    Parent = window,
-    PlaceholderText = "Check Key",
-    Size = UDim2.new(0, 300, 0, 30),
-    Position = UDim2.new(0, 50, 0, 50)
-    })
-    
-    -- Create a button 1
-    local button1 = Fluent.Button:new({
-    Parent = window,
-    Text = "Button 1",
-    Size = UDim2.new(0, 100, 0, 30),
-    Position = UDim2.new(0, 50, 0, 90)
-    })
-    
-    button1.OnClick:Connect(function(getLink)
-    print("Key Link Copied")
-    end)
-    
-    -- Create a button 2
-    local button2 = Fluent.Button:new({
-    Parent = window,
-    Text = "Check Key",
-    Size = UDim2.new(0, 100, 0, 30),
-    Position = UDim2.new(0, 170, 0, 90)
-    })
-    
-    button2.OnClick:Connect(function(verify)
-    print("Button 2 clicked!")
-    end)
-    
-    -- Show the window
-    window:Show()
+    SubTitle = "XephyrHub",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(540, 300),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+})
+
+local Button = Fluent:CreateButton(getLink)
+    Parent = Window
+
+
+
 
 
 -- Plato callbacks
