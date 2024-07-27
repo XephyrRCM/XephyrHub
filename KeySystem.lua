@@ -22,9 +22,10 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-local Button = Fluent:CreateButton(getLink)
+local Button = Fluent:CreateButton(function(getLink)
     Parent = Window
-    
+end
+)
 
 -- Plato callbacks
 local onMessage = function(message)
