@@ -5,12 +5,7 @@ local allowKeyRedeeming = false; -- Automatically check keys to redeem if valid
 local useDataModel = false;
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
-
--------Keysys UI-----------
-
 -- Create a new Fluent window
-
-
 local Window = Fluent:CreateWindow({
     Title = "Key Verification",
     SubTitle = "XephyrHub",
@@ -18,23 +13,30 @@ local Window = Fluent:CreateWindow({
     Size = UDim2.fromOffset(540, 300),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
     Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
-  })
-  
-  local Tabs = {
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when there's no MinimizeKeybind
+})
+
+local Tabs = {
     Main = Window:AddTab({ Title = "| Main", Icon = "home" }),
     Settings = Window:AddTab({ Title = "| Settings", Icon = "cog" }),
-  }
-  local Button = Tabs.Main:AddButton({
+}
+
+-- Create a button that copies the link to clipboard
+local Button = Tabs.Main:AddButton({
     Title = "Button",
     Parent = Window,
     Text = "Copy Link",
-
-  })
+    Callback = function()
+        local link = getLink()
+        -- Using the clipboard service to copy the link to the clipboard
+        setclipboard(link)
+        print("Link copied to clipboard: " .. link)
+    end
+})
 
 -- Plato callbacks
 local onMessage = function(message)
-    --logic
+    -- logic
 end;
 
 -- Plato internals [START]
@@ -84,7 +86,7 @@ function verify(key)
                 return false;
             end;
         else
-            onMessage("An error occured while contacting the server!");
+            onMessage("An error occurred while contacting the server!");
             return allowPassThrough;
         end;
     else
