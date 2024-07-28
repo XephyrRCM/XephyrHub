@@ -15,20 +15,16 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 local Window = Fluent:CreateWindow({
     Title = "Key Verification",
     SubTitle = "XephyrHub",
-    TabWidth = 160,
     Size = UDim2.fromOffset(540, 300),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
     Theme = "Amethyst",
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-Fluent.Window:AddButton('Copy Link', {
-    Title = 'Copy Link',
+local button1 = Fluent.Button:AddButton({
     Parent = Window,
-    callback = function(copyLink)
-        getLink = copyLink
-        getLink()
-    end,
+    Text = 'Copy Link',
+
 })
 
 
