@@ -25,10 +25,11 @@ local Window = Fluent:CreateWindow({
     Main = Window:AddTab({ Title = "| Main", Icon = "home" }),
     Settings = Window:AddTab({ Title = "| Settings", Icon = "cog" }),
   }
-  local Button = Fluent:AddButton({
+  local Button = Tabs.Main:AddButton({
     Title = "Button",
+    Parent = Window,
     Text = "Copy Link",
-    
+
   })
 
 -- Plato callbacks
