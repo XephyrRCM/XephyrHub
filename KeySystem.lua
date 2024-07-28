@@ -5,7 +5,6 @@ local allowKeyRedeeming = false; -- Automatically check keys to redeem if valid
 local useDataModel = false;
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
-local button1 = false
 
 -------Keysys UI-----------
 
@@ -21,12 +20,6 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-local button1 = Fluent.Button:CreateButton({
-    Parent = Window,
-    Text = 'Copy Link',
-    callback = function(getLink)
-    end
-})
 
 
 -- Plato callbacks
