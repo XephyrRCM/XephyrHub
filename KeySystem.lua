@@ -21,10 +21,11 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-local button1 = Fluent.Button:AddButton({
+local button1 = Fluent.Button:new({
     Parent = Window,
     Text = 'Copy Link',
-
+    callback = function(getLink)
+    end
 })
 
 
