@@ -22,12 +22,7 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-local Tabs = {
-    Main = Window:AddTab({ Title = "| Main", Icon = "home"})
-
-}
-
-Tabs.Main:AddButton('Copy Link', {
+Fluent.Window:AddButton('Copy Link', {
     Title = 'Copy Link',
     Parent = Window,
     callback = function(copyLink)
