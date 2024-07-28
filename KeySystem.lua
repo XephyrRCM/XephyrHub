@@ -16,8 +16,9 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
-local KeyInput = Window:CreateTextBox({
+local KeyInput = Window:CreateInput({
     Title = "Enter Key",
+    Parent = "Window",
     Placeholder = "Enter your key here...",
     Size = UDim2.fromOffset(400, 50),
     Position = UDim2.fromOffset(70, 50)
