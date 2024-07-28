@@ -11,28 +11,57 @@ local Window = Fluent:CreateWindow({
     SubTitle = "XephyrHub",
     TabWidth = 160,
     Size = UDim2.fromOffset(540, 300),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Acrylic = true,
     Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when there's no MinimizeKeybind
+    MinimizeKey = Enum.KeyCode.LeftControl
 })
 
-local Tabs = {
-    Main = Window:AddTab({ Title = "| Main", Icon = "home" }),
-    Settings = Window:AddTab({ Title = "| Settings", Icon = "cog" }),
-}
+-- Create the UI elements
+local KeyInput = Window:CreateInput({
+    Title = "Enter Key",
+    Placeholder = "Enter your key here...",
+    Size = UDim2.fromOffset(400, 50),
+    Position = UDim2.fromOffset(70, 50)
+})
 
--- Create a button that copies the link to clipboard
-local Button = Tabs.Main:AddButton({
-    Title = "Button",
-    Parent = Window,
-    Text = "Copy Link",
-    Callback = function()
-        local link = getLink()
-        -- Using the clipboard service to copy the link to the clipboard
-        setclipboard(link)
-        print("Link copied to clipboard: " .. link)
+local VerifyButton = Window:CreateButton({
+    Text = "Verify Key",
+    Size = UDim2.fromOffset(400, 50),
+    Position = UDim2.fromOffset(70, 120),
+    BackgroundColor = Color3.fromRGB(0, 170, 0)
+})
+
+local StatusLabel = Window:CreateLabel({
+    Text = "Status: Waiting for input...",
+    Size = UDim2.fromOffset(400, 50),
+    Position = UDim2.fromOffset(70, 200),
+    TextColor = Color3.fromRGB(255, 255, 255)
+})
+
+-- Plato callbacks
+local onMessage = function(message)
+    StatusLabel.Text = "Status: " .. message
+end
+
+-- Event handler for Verify Button
+VerifyButton.MouseButton1Click:Connect(function()
+    local key = KeyInput.Text
+    if key == "" then
+        onMessage("Please enter a key.")
+        return
     end
-})
+    
+    onMessage("Checking key...")
+    
+    local isValid = verify(key)
+    
+    if isValid then
+        onMessage("Key is valid!")
+    else
+        onMessage("Key is invalid or an error occurred.")
+    end
+end)
+
 
 -- Plato callbacks
 local onMessage = function(message)
