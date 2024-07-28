@@ -14,13 +14,22 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 local Window = Fluent:CreateWindow({
     Title = "Key Verification",
     SubTitle = "XephyrHub",
+    TabWidth = 160,
     Size = UDim2.fromOffset(540, 300),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
     Theme = "Amethyst",
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
-})
-
-
+  })
+  
+  local Tabs = {
+    Main = Window:AddTab({ Title = "| Main", Icon = "home" }),
+    Settings = Window:AddTab({ Title = "| Settings", Icon = "cog" }),
+  }
+  local Button = Fluent:AddButton({
+    Title = "Button",
+    Text = "Copy Link",
+    
+  })
 
 -- Plato callbacks
 local onMessage = function(message)
