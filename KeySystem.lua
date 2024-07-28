@@ -27,10 +27,10 @@ local Tabs = {
 
 }
 
-Tabs.Main:CreateButton('Copy Link', {
+Tabs.Main:AddButton('Copy Link', {
     Title = 'Copy Link',
-    callback = function(getLink)
-        copyLink = getLink
+    callback = function(copyLink)
+        getLink = copyLink
         getLink()
     end,
 })
