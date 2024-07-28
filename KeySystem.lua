@@ -18,7 +18,7 @@ local Window = Fluent:CreateWindow({
 
 local KeyInput = Window:CreateInput({
     Title = "Enter Key",
-    Parent = "Window",
+    Parent = Window,
     Placeholder = "Enter your key here...",
     Size = UDim2.fromOffset(400, 50),
     Position = UDim2.fromOffset(70, 50)
