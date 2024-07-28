@@ -16,30 +16,6 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
--- Create the UI elements
-local KeyInput = Window:CreateInput({
-    Title = "Enter Key",
-    Parent = Window,
-    Placeholder = "Enter your key here...",
-    Size = UDim2.fromOffset(400, 50),
-    Position = UDim2.fromOffset(70, 50)
-})
-
-local VerifyButton = Window:CreateButton({
-    Text = "Verify Key",
-    Parent = Window,
-    Size = UDim2.fromOffset(400, 50),
-    Position = UDim2.fromOffset(70, 120),
-    BackgroundColor = Color3.fromRGB(0, 170, 0)
-})
-
-local StatusLabel = Window:CreateLabel({
-    Text = "Status: Waiting for input...",
-    Parent = Window,
-    Size = UDim2.fromOffset(400, 50),
-    Position = UDim2.fromOffset(70, 200),
-    TextColor = Color3.fromRGB(255, 255, 255)
-})
 
 -- Plato callbacks
 local onMessage = function(message)
