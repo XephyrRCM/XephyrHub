@@ -30,8 +30,8 @@ local Tabs = {
 Tabs.Main:CreateButton('Copy Link', {
     Title = 'Copy Link',
     callback = function(getLink)
-        copyLink = copyLink
-        copyLink()
+        copyLink = getLink
+        getLink()
     end,
 })
 
