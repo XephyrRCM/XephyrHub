@@ -22,10 +22,19 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
-local Button = Fluent:CreateButton(function(getLink)
-    Parent = Window
-end
-)
+local Tabs = {
+    Main = Window:AddTab({ Title = "| Main", Icon = "home"})
+
+}
+
+Tabs.Main:AddButton('Copy Link', {
+    Title = 'Copy Link',
+    callback = function(getLink)
+        copyLink = copy
+        copy()
+    end,
+})
+
 
 -- Plato callbacks
 local onMessage = function(message)
