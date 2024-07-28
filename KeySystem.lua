@@ -29,6 +29,7 @@ local Tabs = {
 
 Tabs.Main:AddButton('Copy Link', {
     Title = 'Copy Link',
+    Parent = Window,
     callback = function(copyLink)
         getLink = copyLink
         getLink()
