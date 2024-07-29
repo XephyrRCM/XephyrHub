@@ -3,40 +3,40 @@ local accountId = 43191; -- Plato account id [IMPORTANT]
 local allowPassThrough = false; -- Allow user through if error occurs, may reduce security
 local allowKeyRedeeming = false; -- Automatically check keys to redeem if valid
 local useDataModel = false;
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
--- Create a new Fluent window
-local Window = Fluent:CreateWindow({
-    Title = "Key Verification",
-    SubTitle = "XephyrHub",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(540, 300),
-    Acrylic = true,
-    Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.LeftControl
+-- UI For key system -- 
+
+local Window = OrionLib:MakeWindow({
+    Name = "Key System Verification",
+    HidePremium = false
 })
 
-local KeyInput = Window:CreateInput({
-    Title = "Enter Key",
-    Parent = Window,
-    Placeholder = "Enter your key here...",
-    Size = UDim2.fromOffset(400, 50),
-    Position = UDim2.fromOffset(70, 50)
+--- Buttons --- 
+
+Tab:AddButton({
+	Name = "Copy Link",
+	Callback = function(getLink)
+      		print("Link Copied to Clipboard")
+  	end    
 })
 
-local VerifyButton = Window:CreateButton({
-    Text = "Verify Key",
-    Size = UDim2.fromOffset(400, 50),
-    Position = UDim2.fromOffset(70, 120),
-    BackgroundColor = Color3.fromRGB(0, 170, 0)
+Tab:AddButton({
+	Name = "Check Key",
+	Callback = function(verify)
+      		print("Checking Key")
+  	end    
 })
 
-local StatusLabel = Window:CreateLabel({
-    Text = "Status: Waiting for input...",
-    Size = UDim2.fromOffset(400, 50),
-    Position = UDim2.fromOffset(70, 200),
-    TextColor = Color3.fromRGB(255, 255, 255)
+Tab:AddTextbox({
+	Name = "KeyBox",
+	Default = "Enter Key Here",
+	TextDisappear = true,
+	Callback = function(key)
+		print(Value)
+	end	  
 })
+
 
 -- Plato callbacks
 local onMessage = function(message)
@@ -181,3 +181,5 @@ function verify(key)
     end;
 end;
 -- Plato global functions [END]
+
+OrionLib:Init()
