@@ -12,6 +12,9 @@ local Window = OrionLib:MakeWindow({
     HidePremium = false
 })
 
+local Tab = Window:MakeTab({
+    Name = "Home"
+})
 --- Buttons --- 
 
 Tab:AddButton({
