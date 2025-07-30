@@ -1,0 +1,144 @@
+Scenario 1. 
+
+
+$StartDate = (Get-Date).AddDays(-31)
+
+$EventIDs = @{
+    'PowerOn'             = 6005
+    'Shutdown'            = 6006
+    'UnexpectedShutdown'  = 6008
+    'Reboot'              = 1074
+    'Sleep'               = 42
+    'Wake'                = 1
+}
+
+$events = Get-WinEvent -FilterHashtable @{
+    LogName = 'System'
+    ID      = $EventIDs.Values
+    StartTime = $StartDate
+} | Sort-Object TimeCreated
+
+$groupedEvents = @{
+    'PowerOn' = @()
+    'Shutdown' = @()
+    'UnexpectedShutdown' = @()
+    'Reboot' = @()
+    'Sleep' = @()
+    'Wake' = @()
+}
+
+foreach ($event in $events) {
+    switch ($event.Id) {
+        6008 {
+            $rawMessage = $event.Message
+            $line = ($rawMessage -split "`n")[0]
+            $match = $line -replace '.*occurred on ', ''
+            if ([datetime]::TryParse($match, [ref]$parsed)) {
+                $groupedEvents['UnexpectedShutdown'] += $parsed
+            }
+        }
+        default {
+            $key = $EventIDs.Keys | Where-Object { $EventIDs[$_] -eq $event.Id }
+            if ($key) {
+                $groupedEvents[$key] += $event.TimeCreated
+            }
+        }
+    }
+}
+
+$formattedResult = ""
+foreach ($key in $groupedEvents.Keys) {
+    $timestamps = $groupedEvents[$key] | ForEach-Object { $_.ToString('yyyy-MM-dd HH:mm:ss') }
+    if ($timestamps.Count -gt 0) {
+        $formattedResult += "$key:`n - " + ($timestamps -join "`n - ") + "`n`n"
+    }
+}
+
+$RecentPowerEvents = $formattedResult
+
+
+
+
+
+Scenario 2.
+
+
+
+# Get current external IP
+$currentIP = Invoke-RestMethod -Uri 'https://api.ipify.org?format=text'
+
+# Define custom field name
+$fieldName = "LastKnownIP"
+
+# Path to NinjaOne CLI
+$ninjarmmCli = "$env:NINJA_CLI_PATH\ninjarmm-cli.exe"
+
+# Get the saved value from the custom field
+$customFieldJson = & $ninjarmmCli get custom-fields
+$lastKnownIP = ($customFieldJson | ConvertFrom-Json | Where-Object { $_.name -eq $fieldName }).value
+
+# First run detection
+if ([string]::IsNullOrEmpty($lastKnownIP)) {
+    # Set the current IP as the initial known IP
+    & $ninjarmmCli set custom-field --name "$fieldName" --value "$currentIP"
+    Write-Host "First run - IP initialized"
+}
+elseif ($currentIP -ne $lastKnownIP) {
+    # IP has changed
+    & $ninjarmmCli set custom-field --name "$fieldName" --value "$currentIP"
+    Write-Host "IP Changed"
+}
+else {
+    Write-Host "No Change"
+}
+
+
+
+
+Scenario 5: 
+
+
+$profileDirs = Get-ChildItem "C:\Users" -Directory | Where-Object {
+    $_.Name -notin @("Public", "Default", "Default User", "All Users") -and
+    -not ($_.Attributes -match "ReparsePoint")
+}
+
+$results = @()
+
+foreach ($profile in $profileDirs) {
+    $username = $profile.Name
+    $ntUserDat = Join-Path $profile.FullName "NTUSER.DAT"
+    $loaded = $false
+    $hiveName = "TempHive_$username"
+
+    if (Test-Path $ntUserDat) {
+        try {
+            reg load "HKU\$hiveName" "$ntUserDat" > $null 2>&1
+            $loaded = $true
+        } catch {}
+
+        if ($loaded -or (Test-Path "HKU\$hiveName")) {
+            $uninstallPath = "HKU\$hiveName\Software\Microsoft\Windows\CurrentVersion\Uninstall"
+            if (Test-Path "Registry::$uninstallPath") {
+                Get-ChildItem "Registry::$uninstallPath" | ForEach-Object {
+                    $displayName = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).DisplayName
+                    if ($displayName) {
+                        $results += [PSCustomObject]@{
+                            Username     = $username
+                            AppName      = $displayName
+                            RegistryPath = $_.Name
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($loaded) {
+            reg unload "HKU\$hiveName" > $null 2>&1
+        }
+    }
+}
+
+$results | Export-Csv -Path "C:\ProgramData\NinjaTemp\UserInstalledApps.csv" -NoTypeInformation
+$results | Format-Table -AutoSize
+
